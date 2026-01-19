@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WEARENFEEL</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           HIGH-LUXURY FASHION EDITORIAL DESIGN
+           Inspired by Vogue, Harper's Bazaar, Saint Laurent
+           ======================================== */
+        
+        :root {
+            --color-bg: #0a0908;
+            --color-surface: #121110;
+            --color-surface-elevated: #1a1918;
+            --color-text: #faf9f7;
+            --color-text-secondary: #a8a5a0;
+            --color-text-muted: #6b6965;
+            --color-accent: #c9a962;
+            --color-accent-hover: #d4b875;
+            --color-danger: #8b2635;
+            --color-success: #4a7c59;
+            --color-border: rgba(255,255,255,0.08);
+            --color-border-hover: rgba(255,255,255,0.15);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --transition-elegant: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { 
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+        
+        .accent { color: var(--color-accent); }
+        .text-muted { color: var(--color-text-muted); }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+        
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.6s var(--transition-elegant);
+        }
+        
+        .product-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,9,8,0.7) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s var(--transition-elegant);
+        }
+        
+        .product-card:hover::after { opacity: 1; }
+        
+        .product-card img {
+            transition: transform 0.8s var(--transition-elegant);
+            filter: saturate(0.9) contrast(1.05);
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.03);
+        }
+        
+        /* Masonry effect */
+        .product-card:nth-child(odd) { margin-top: 0; }
+        .product-card:nth-child(even) { margin-top: 40px; }
+        .product-card:nth-child(3n) { margin-top: -25px; }
+        .product-card:nth-child(4n) { margin-top: 55px; }
+        
+        .price-tag {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 16px;
+            background: linear-gradient(to top, rgba(10,9,8,0.95) 0%, transparent 100%);
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.15rem;
+            z-index: 2;
+        }
+        
+        .sold-stamp {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-12deg);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--color-text);
+            border: 1px solid var(--color-text);
+            padding: 0.6rem 1.8rem;
+            background: rgba(10,9,8,0.85);
+            z-index: 3;
+        }
+        
+        /* Image Slider */
+        .image-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .image-slider::-webkit-scrollbar { display: none; }
+        .image-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+        }
+        
+        /* Forms */
+        input, select, textarea {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 1.1rem 0;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.4s var(--transition-elegant);
+            border-radius: 0;
+            -webkit-appearance: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--color-accent);
+        }
+        
+        input::placeholder, textarea::placeholder { 
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+        
+        input.error {
+            border-color: var(--color-danger);
+            animation: shake 0.4s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        
+        .field-error {
+            color: var(--color-danger);
+            font-size: 0.7rem;
+            margin-top: 6px;
+        }
+
+        /* Password field with eye icon */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .password-wrapper input {
+            padding-right: 50px;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+        .password-toggle:hover {
+            color: var(--color-accent);
+        }
+
+        /* Checkbox */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            appearance: none;
+            border: 1px solid var(--color-border-hover);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        input[type="checkbox"]:checked {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--color-bg);
+            font-weight: 600;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--color-accent);
+            color: var(--color-bg);
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 1.3rem 2.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-elegant);
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: var(--color-accent-hover);
+            box-shadow: 0 8px 30px rgba(201, 169, 98, 0.25);
+        }
+        .btn-primary:disabled {
+            background: var(--color-surface);
+            color: var(--color-text-muted);
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--color-border-hover);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 1rem 1.8rem;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-elegant);
+        }
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+        
+        /* Size buttons */
+        .size-btn {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            min-width: 48px;
+            text-align: center;
+        }
+        .size-btn.selected {
+            border-color: var(--color-accent) !important;
+            background: rgba(201, 169, 98, 0.1);
+            color: var(--color-accent);
+        }
+        
+        /* Bid code display */
+        .bid-code-display {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            letter-spacing: 0.35em;
+            color: var(--color-accent);
+            font-weight: 500;
+            font-style: italic;
+        }
+        
+        .bid-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .bid-status.active { background: rgba(74, 124, 89, 0.12); color: var(--color-success); }
+        .bid-status.closed { background: rgba(168, 165, 160, 0.08); color: var(--color-text-secondary); }
+        .bid-status.won { background: rgba(74, 124, 89, 0.15); color: var(--color-success); }
+        .bid-status.lost { background: rgba(139, 38, 53, 0.1); color: var(--color-danger); }
+        
+        /* Header */
+        .header-blur {
+            background: rgba(10,9,8,0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        /* Menu overlay */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg);
+            z-index: 90;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s var(--transition-elegant);
+        }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+        
+        .menu-link {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-style: italic;
+            transition: all 0.4s ease;
+        }
+        .menu-link:hover { color: var(--color-accent); }
+        
+        /* Admin styles */
+        .admin-tab {
+            cursor: pointer;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+        }
+        .admin-tab:hover { color: var(--color-text) !important; }
+        
+        .admin-card {
+            background: var(--color-surface);
+            padding: 24px;
+            border: 1px solid var(--color-border);
+            transition: all 0.4s ease;
+        }
+        .admin-card:hover {
+            background: var(--color-surface-elevated);
+            border-color: var(--color-border-hover);
+        }
+        
+        .admin-select {
+            background: var(--color-surface) !important;
+            border: 1px solid var(--color-border) !important;
+            padding: 12px !important;
+        }
+        
+        /* Pages */
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; animation: fadeIn 0.6s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in { animation: fadeIn 1s ease forwards; }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 16px;
+            z-index: 60;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10,9,8,0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(10,9,8,0.9); }
+        .back-btn svg { width: 18px; height: 18px; stroke: var(--color-text); }
+        
+        /* Fullscreen gallery */
+        .fullscreen-gallery {
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        .fullscreen-gallery.active { opacity: 1; visibility: visible; }
+        
+        .dot-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-text-muted);
+            transition: all 0.4s ease;
+        }
+        .dot-indicator.active {
+            background: var(--color-accent);
+            transform: scale(1.2);
+        }
+        
+        /* Print styles */
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #444;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkbox-custom.checked {
+            background: #c41e3a;
+            border-color: #c41e3a;
+        }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #printContainer, #printContainer * { visibility: visible; }
+            #printContainer { position: absolute; left: 0; top: 0; width: 100%; background: #fff; }
+            .print-label { border: 1px solid #000; padding: 8mm; margin-bottom: 5mm; }
+        }
+        
+        .locked-field {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(255,255,255,0.02) !important;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--color-border-hover); border-radius: 2px; }
+        
+        /* Selection */
+        ::selection { background: var(--color-accent); color: var(--color-bg); }
+        
+        .no-print {}
+        
+        .tracking-brutal { letter-spacing: -0.02em; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-6 flex justify-between items-center header-blur" id="mainHeader">
+        <div class="cursor-pointer" onclick="navigateTo('home')" style="font-family: var(--font-display); font-size: 1rem; font-weight: 500; letter-spacing: 0.35em; font-style: italic;">
+            WEARENFEEL
+        </div>
+        <button class="w-11 h-11 flex flex-col justify-center items-center gap-2 group" onclick="toggleMenu()" aria-label="Menu">
+            <span class="w-6 h-[1px] bg-white/80 transition-all duration-300 group-hover:w-5 group-hover:bg-[#c9a962]"></span>
+            <span class="w-4 h-[1px] bg-white/60 transition-all duration-300 group-hover:w-6 group-hover:bg-[#c9a962]"></span>
+        </button>
+    </header>
+
+    <!-- MENU OVERLAY -->
+    <div class="menu-overlay" id="menuOverlay">
+        <button class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center text-2xl opacity-50" onclick="toggleMenu()">×</button>
+        <nav class="w-full h-full flex flex-col justify-center items-center gap-10" id="dynamicMenuNav"></nav>
+        
+        <!-- Secret Admin Trigger -->
+        <div class="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-2 opacity-20 cursor-default" id="secretAdminBtn" onclick="handleSecretTap()">
+            <span class="w-6 h-0.5 bg-gray-600"></span>
+            <span class="w-3 h-0.5 bg-gray-600"></span>
+            <span class="w-10 h-0.5 bg-gray-600"></span>
+        </div>
+        <div class="absolute bottom-24 left-0 right-0 flex flex-col items-center gap-4 opacity-0 invisible transition-all duration-500" id="adminSecretMenu">
+            <a class="text-sm tracking-widest text-gray-500 cursor-pointer hover:text-white" onclick="goToAdmin()">ADMIN</a>
+        </div>
+    </div>
+
+    <!-- PAGE: HOME -->
+    <main class="page active" id="homePage">
+        <div class="pt-20 pb-8">
+            <p class="text-center py-6 px-8 text-sm italic" style="font-family: var(--font-display); color: var(--color-text-secondary);">
+                "Only one piece. One owner. No pressure."
+            </p>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-8 pb-20 pt-16 flex flex-col items-center gap-6" style="background: linear-gradient(to top, rgba(10,9,8,1) 0%, transparent 100%);">
+            <div class="w-24 h-[1px] mb-6" style="background: linear-gradient(90deg, transparent, var(--color-border-hover), transparent);"></div>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('policies')">POLICIES</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('privacy')">PRIVACY POLICY</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('terms')">TERMS & CONDITIONS</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('refund')">REFUND & CANCELLATION</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('shipping')">SHIPPING & DELIVERY</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('about')">ABOUT US</button>
+            <button class="text-xs tracking-[0.25em] text-gray-500 hover:text-[#c9a962] transition-all" onclick="navigateTo('contact')">CONTACT</button>
+            <div class="w-24 h-[1px] mt-6" style="background: linear-gradient(90deg, transparent, var(--color-border-hover), transparent);"></div>
+            <p class="text-[10px] text-gray-600 mt-4 tracking-[0.3em]">WEARENFEEL © 2024</p>
+        </div>
+    </main>
+
+    <!-- PAGE: PRODUCT DETAIL -->
+    <main class="page" id="productPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="fade-in" id="productContent"></div>
+    </main>
+
+    <!-- Fullscreen Gallery -->
+    <div class="fullscreen-gallery flex items-center" id="fullscreenGallery">
+        <button class="absolute top-6 right-6 z-10 text-white text-2xl opacity-60 w-10 h-10 flex items-center justify-center" onclick="closeGallery()">×</button>
+        <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-10" id="galleryDots"></div>
+        <div class="image-slider w-full h-full flex items-center" id="gallerySlider"></div>
+    </div>
+
+    <!-- PAGE: ADDRESS FORM -->
+    <main class="page" id="addressPage">
+        <button class="back-btn no-print" onclick="navigateTo('product', state.currentProduct?.id)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-28 px-6 pb-32 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Apply for Ownership</h1>
+            <p class="text-muted mb-10">Enter your complete details to participate in the auction.</p>
+            
+            <form id="addressForm" class="space-y-4">
+                <div class="mb-6">
+                    <p class="text-sm text-muted mb-3 tracking-widest">PERSONAL INFORMATION</p>
+                    <div class="space-y-4">
+                        <input type="text" id="fullName" placeholder="Full Legal Name *" required autocomplete="name">
+                        <input type="email" id="email" placeholder="Email Address *" required autocomplete="email">
+                        <div class="flex gap-3">
+                            <input type="tel" id="countryCode" placeholder="+91" value="+91" required maxlength="4" class="flex-shrink-0" style="width: 80px;" oninput="validateCountryCode(this)">
+                            <input type="tel" id="phoneNumber" placeholder="Phone Number *" required maxlength="15" oninput="validatePhoneNumber(this)">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-sm text-muted mb-3 tracking-widest">SHIPPING ADDRESS</p>
+                    <div class="space-y-4">
+                        <input type="text" id="addressLine1" placeholder="Street Address / House No. *" required>
+                        <input type="text" id="addressLine2" placeholder="Apartment, Suite (Optional)">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="city" placeholder="City *" required>
+                            <input type="text" id="addressState" placeholder="State *" required>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="postalCode" placeholder="PIN Code *" required maxlength="10" oninput="validatePostalCode(this)">
+                            <input type="text" id="country" placeholder="Country *" required value="India">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-sm text-muted mb-3 tracking-widest">ADDITIONAL INFORMATION</p>
+                    <textarea id="specialInstructions" placeholder="Special instructions for delivery (Optional)" rows="2"></textarea>
+                </div>
+                
+                <div class="flex items-start gap-3 mb-4">
+                    <input type="checkbox" id="termsAgreement" class="mt-1" required>
+                    <label for="termsAgreement" class="text-sm text-gray-400">
+                        I agree that all information provided is accurate and will be used for shipping and communication purposes.
+                    </label>
+                </div>
+                
+                <div class="flex items-start gap-3 mb-8">
+                    <input type="checkbox" id="policyAgreement" class="mt-1" required>
+                    <label for="policyAgreement" class="text-sm text-gray-400">
+                        I agree to all <a href="#" onclick="event.preventDefault(); navigateTo('policies');" class="text-white underline">website policies</a> including bidding, payment, and refund rules.
+                    </label>
+                </div>
+            </form>
+        </div>
+        
+        <div class="fixed bottom-0 left-0 right-0 p-4 no-print" style="background: linear-gradient(to top, #0a0a0a 80%, transparent);">
+            <button class="btn-primary" onclick="continueApplication()">CONTINUE APPLICATION</button>
+        </div>
+    </main>
+
+    <!-- PAGE: DEPOSIT -->
+    <main class="page" id="depositPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-32 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Registration Fee</h1>
+            <p class="text-muted mb-8">A non-refundable registration fee is required to participate in this auction.</p>
+            
+            <div class="border border-gray-800 p-6 mb-6">
+                <p class="text-sm text-muted mb-2 tracking-widest">REGISTRATION FEE</p>
+                <p class="text-4xl font-bold">₹<span id="depositAmount">100</span></p>
+            </div>
+            
+            <div class="bg-gray-900/50 p-4 mb-6 text-sm text-gray-400">
+                <p class="mb-2">• This deposit secures your spot in the auction</p>
+                <p class="mb-2">• <span class="text-red-400 font-semibold">Non-refundable</span> registration fee</p>
+                <p class="mb-2">• Deducted from final price if you win</p>
+                <p>• If you win, remaining amount must be paid within 24 hours</p>
+            </div>
+            
+            <p class="text-sm text-center text-gray-500 italic mb-8" style="font-family: var(--font-display);">
+                After payment, you will create an account and receive a unique bid code.
+            </p>
+            
+            <button class="btn-primary" onclick="processPayment()">PAY & REGISTER</button>
+        </div>
+    </main>
+
+    <!-- PAGE: SIGNUP -->
+    <main class="page" id="signupPage">
+        <button class="back-btn no-print" onclick="navigateTo('deposit')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Create Account</h1>
+            <p class="text-muted mb-10">Payment confirmed. Please set up your account.</p>
+            
+            <form id="signupForm" onsubmit="event.preventDefault(); handleSignup();" class="space-y-6">
+                <input type="email" id="signupEmail" placeholder="Email Address *" required>
+                <div class="password-wrapper">
+                    <input type="password" id="signupPassword" placeholder="Create Password *" required minlength="6">
+                    <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <div class="password-wrapper">
+                    <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password *" required minlength="6">
+                    <button type="button" class="password-toggle" onclick="togglePassword('signupPasswordConfirm', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary mt-8">CREATE ACCOUNT</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- PAGE: SIMPLE SIGNUP (for users who just want to create account) -->
+    <main class="page" id="simpleSignupPage">
+        <button class="back-btn no-print" onclick="navigateTo('userLogin')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Create Account</h1>
+            <p class="text-muted mb-10">Join WEARENFEEL to start bidding on exclusive pieces.</p>
+            
+            <form id="simpleSignupForm" onsubmit="event.preventDefault(); handleSimpleSignup();" class="space-y-6">
+                <input type="email" id="simpleSignupEmail" placeholder="Email Address *" required>
+                <div class="password-wrapper">
+                    <input type="password" id="simpleSignupPassword" placeholder="Create Password *" required minlength="6">
+                    <button type="button" class="password-toggle" onclick="togglePassword('simpleSignupPassword', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <div class="password-wrapper">
+                    <input type="password" id="simpleSignupPasswordConfirm" placeholder="Confirm Password *" required minlength="6">
+                    <button type="button" class="password-toggle" onclick="togglePassword('simpleSignupPasswordConfirm', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary mt-8">CREATE MY ACCOUNT</button>
+            </form>
+            
+            <p class="text-center mt-6 text-sm text-gray-500">
+                Already have an account? <span class="text-white underline cursor-pointer" onclick="navigateTo('userLogin')">Login</span>
+            </p>
+        </div>
+    </main>
+
+    <!-- PAGE: USER LOGIN -->
+    <main class="page" id="userLoginPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Login</h1>
+            <p class="text-muted mb-10">Welcome back to WEARENFEEL</p>
+            
+            <form id="userLoginForm" onsubmit="event.preventDefault(); handleUserLogin();" class="space-y-6">
+                <input type="email" id="loginEmail" placeholder="Email Address" required>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary mt-8">LOGIN</button>
+            </form>
+            
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-500">Don't have an account?</p>
+                <button class="text-sm text-white underline mt-2" onclick="navigateTo('simpleSignup')">Create Account</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PAGE: MY ACCOUNT -->
+    <main class="page" id="myAccountPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-24 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-8" style="font-family: var(--font-display); font-style: italic;">My Account</h1>
+            
+            <form id="myAccountForm" onsubmit="event.preventDefault(); saveAccountDetails();" class="space-y-6">
+                <div class="space-y-4 border-b border-gray-800 pb-6">
+                    <p class="text-xs text-muted tracking-widest uppercase">Contact Info (Locked)</p>
+                    <input type="text" id="accEmail" class="locked-field" placeholder="Email" readonly>
+                    <input type="text" id="accPhone" class="locked-field" placeholder="Phone" readonly>
+                </div>
+                
+                <div class="space-y-4">
+                    <p class="text-xs text-muted tracking-widest uppercase">Personal Details</p>
+                    <input type="text" id="accFullName" placeholder="Full Name">
+                    <input type="text" id="accAddress" placeholder="Address">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="accCity" placeholder="City">
+                        <input type="text" id="accState" placeholder="State">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="accCountry" placeholder="Country">
+                        <input type="text" id="accPincode" placeholder="PIN Code">
+                    </div>
+                </div>
+                
+                <div class="pt-4">
+                    <p class="text-xs text-muted mb-2">Change Password</p>
+                    <div class="password-wrapper">
+                        <input type="password" id="accNewPassword" placeholder="New Password (leave blank to keep current)">
+                        <button type="button" class="password-toggle" onclick="togglePassword('accNewPassword', this)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary mt-8">SAVE CHANGES</button>
+            </form>
+            
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <h2 class="text-xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display);">My Applications</h2>
+                <div id="accountBidsList" class="space-y-4"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- PAGE: PLACE BID -->
+    <main class="page" id="placeBidPage">
+        <button class="back-btn no-print" onclick="navigateTo('product', state.currentProduct?.id)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-32 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-4" style="font-family: var(--font-display); font-style: italic;">Place Your Bid</h1>
+            
+            <div class="border border-gray-800 p-4 mb-6">
+                <p class="text-sm text-muted mb-1">Your Unique Code</p>
+                <p class="bid-code-display" id="yourBidCode">------</p>
+            </div>
+            
+            <div class="border border-gray-800 p-4 mb-6">
+                <p class="text-sm text-muted mb-1 tracking-widest">MINIMUM BID REQUIRED</p>
+                <p class="text-2xl font-bold">₹<span id="minimumBidAmount">0</span></p>
+            </div>
+            
+            <div class="mb-6">
+                <label class="text-sm text-muted mb-3 block tracking-widest">ENTER YOUR BID AMOUNT</label>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold">₹</span>
+                    <input type="number" id="bidAmountInput" placeholder="0" min="1" class="text-2xl font-bold flex-1" inputmode="numeric">
+                </div>
+            </div>
+            
+            <div class="border border-gray-800 p-4 mb-8 text-sm" style="background: rgba(201, 169, 98, 0.03);">
+                <p class="text-xs text-muted tracking-widest mb-3">BIDDING RULES</p>
+                <p class="text-gray-400 mb-1">• Minimum bid = current highest + ₹100</p>
+                <p class="text-gray-400 mb-1">• You can edit your bid <span class="text-white font-semibold">only once</span></p>
+                <p class="text-gray-400 mb-1">• Highest bid wins</p>
+                <p class="text-gray-400">• Risk transfers to buyer once shipped</p>
+            </div>
+            
+            <button class="btn-primary" onclick="submitBid()">CONFIRM BID</button>
+        </div>
+    </main>
+
+    <!-- PAGE: BID CONFIRMED -->
+    <main class="page" id="confirmedPage">
+        <div class="h-screen flex flex-col items-center justify-center px-8 fade-in" id="confirmedContent"></div>
+    </main>
+
+    <!-- PAGE: MY BIDS -->
+    <main class="page" id="myBidsPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-5 pb-8 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-2" style="font-family: var(--font-display); font-style: italic;">My Bids</h1>
+            <p class="text-muted mb-8">Track all your auction participations</p>
+            <div class="space-y-4" id="myBidsList"></div>
+        </div>
+    </main>
+
+    <!-- PAGE: ADMIN LOGIN -->
+    <main class="page" id="adminLoginPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="h-screen flex flex-col justify-center px-8 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-2" style="font-family: var(--font-display); font-style: italic;">Admin Access</h1>
+            <p class="text-muted mb-10">Enter your credentials to continue</p>
+            
+            <form id="adminLoginForm" class="space-y-6" onsubmit="event.preventDefault(); adminLogin();">
+                <input type="email" id="adminEmail" placeholder="Email" required>
+                <div class="password-wrapper">
+                    <input type="password" id="adminPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('adminPassword', this)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary mt-8">VERIFY ACCESS</button>
+            </form>
+            
+            <button class="w-full mt-4 py-3 text-muted text-sm" onclick="navigateTo('home')">Cancel</button>
+        </div>
+    </main>
+
+    <!-- PAGE: ADMIN PANEL -->
+    <main class="page" id="adminPage">
+        <div class="pt-24 pb-8 fade-in">
+            <div class="flex gap-6 px-6 mb-8 overflow-x-auto text-sm tracking-widest border-b border-gray-900">
+                <button class="admin-tab pb-4 border-b-2 border-white flex-shrink-0 text-white" data-tab="dashboard" onclick="switchAdminTab('dashboard')">DASHBOARD</button>
+                <button class="admin-tab pb-4 border-b-2 border-transparent flex-shrink-0 text-gray-500" data-tab="products" onclick="switchAdminTab('products')">PRODUCTS</button>
+                <button class="admin-tab pb-4 border-b-2 border-transparent flex-shrink-0 text-gray-500" data-tab="orders" onclick="switchAdminTab('orders')">ORDERS</button>
+                <button class="admin-tab pb-4 border-b-2 border-transparent flex-shrink-0 text-gray-500" data-tab="customers" onclick="switchAdminTab('customers')">CUSTOMERS</button>
+                <button class="admin-tab pb-4 border-b-2 border-transparent flex-shrink-0 text-gray-500" data-tab="bids" onclick="switchAdminTab('bids')">BIDS</button>
+            </div>
+            
+            <!-- Dashboard Tab -->
+            <div class="admin-content px-6" id="adminDashboard">
+                <div class="grid grid-cols-2 gap-3 mb-8">
+                    <div class="admin-card"><p class="text-3xl font-bold" id="statProducts">0</p><p class="text-sm text-gray-500 mt-1">Products</p></div>
+                    <div class="admin-card"><p class="text-3xl font-bold" id="statTotalBids">0</p><p class="text-sm text-gray-500 mt-1">Total Bids</p></div>
+                    <div class="admin-card"><p class="text-3xl font-bold text-green-500" id="statActiveBids">0</p><p class="text-sm text-gray-500 mt-1">Active Bids</p></div>
+                    <div class="admin-card"><p class="text-3xl font-bold" id="statCustomers">0</p><p class="text-sm text-gray-500 mt-1">Customers</p></div>
+                </div>
+                
+                <h2 class="text-lg font-bold mb-4" style="font-family: var(--font-display);">Recent Activity</h2>
+                <div class="space-y-3" id="recentActivity"></div>
+            </div>
+            
+            <!-- Products Tab -->
+            <div class="admin-content px-6 hidden" id="adminProducts">
+                <button class="btn-primary mb-6 text-sm px-6 py-3" style="width: auto;" onclick="showProductModal()">+ ADD PRODUCT</button>
+                <div class="space-y-4" id="adminProductList"></div>
+            </div>
+            
+            <!-- Orders Tab -->
+            <div class="admin-content px-6 hidden" id="adminOrders">
+                <div class="flex gap-3 mb-6 flex-wrap">
+                    <button class="btn-secondary text-xs" onclick="selectAllOrders()">SELECT ALL</button>
+                    <button class="btn-secondary text-xs" onclick="deselectAllOrders()">DESELECT ALL</button>
+                    <button class="btn-primary text-xs py-2 px-4" style="width: auto;" onclick="printSelectedLabels()">PRINT LABELS</button>
+                </div>
+                <div class="space-y-4" id="adminOrderList"></div>
+            </div>
+            
+            <!-- Customers Tab -->
+            <div class="admin-content px-6 hidden" id="adminCustomers">
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-lg font-bold" style="font-family: var(--font-display);">Customer Database</p>
+                    <p class="text-sm text-gray-500" id="customerCount">0 customers</p>
+                </div>
+                <div id="adminCustomerList" class="space-y-3"></div>
+                <div id="adminCustomerDetail" class="hidden"></div>
+            </div>
+            
+            <!-- Bids Tab -->
+            <div class="admin-content px-6 hidden" id="adminBids">
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-lg font-bold" style="font-family: var(--font-display);">All Bids</p>
+                    <p class="text-xs text-gray-500">Highest to lowest</p>
+                </div>
+                <div class="space-y-3" id="adminBidsList"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- PRODUCT MODAL -->
+    <div class="fixed inset-0 bg-black z-50 overflow-y-auto opacity-0 invisible transition-all duration-300" id="productModal">
+        <div class="min-h-screen px-6 py-20">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-2xl font-bold" style="font-family: var(--font-display);" id="productModalTitle">Add Product</h2>
+                <button class="w-10 h-10 flex items-center justify-center text-2xl opacity-60" onclick="closeProductModal()">×</button>
+            </div>
+            
+            <form id="productForm" class="space-y-6">
+                <input type="hidden" id="productId">
+                
+                <div class="border-b border-gray-800 pb-4 mb-4">
+                    <p class="text-xs text-gray-500 mb-3 tracking-widest">REQUIRED FIELDS</p>
+                    <div class="space-y-4">
+                        <input type="text" id="productName" placeholder="Product Name *" required>
+                        <input type="number" id="productPrice" placeholder="Price (₹) *" required min="1">
+                        <input type="number" id="productDeposit" placeholder="Registration Fee (₹) *" required min="1" value="100">
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <p class="text-xs text-gray-500 mb-3 tracking-widest">OPTIONAL FIELDS</p>
+                    <textarea id="productDesc" placeholder="Description" rows="3"></textarea>
+                    <input type="number" id="productStock" placeholder="Stock (default: 1)" value="1" min="0">
+                    <input type="text" id="productSizes" placeholder="Sizes (e.g., S, M, L, XL)">
+                    <textarea id="productImageUrls" placeholder="Image URLs (one per line)" rows="3"></textarea>
+                    
+                    <div class="flex items-center gap-3 py-2">
+                        <label class="text-sm text-gray-400">Status:</label>
+                        <select id="productBidStatus" class="admin-select">
+                            <option value="OPEN">OPEN</option>
+                            <option value="CLOSED">CLOSED</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
+            <button class="btn-primary mt-10" onclick="saveProduct()">SAVE PRODUCT</button>
+        </div>
+    </div>
+
+    <!-- POLICIES PAGE -->
+    <main class="page" id="policiesPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display); font-style: italic;">Policies</h1>
+            <p class="text-lg text-white mb-4" style="font-family: var(--font-display); font-style: italic;">WEARENFEEL</p>
+            
+            <div class="border border-gray-800 p-4 mb-10 text-sm text-gray-400" style="background: rgba(201, 169, 98, 0.03);">
+                <p>By using this website, you agree to all policies mentioned below.</p>
+                <p class="mt-2 text-white font-semibold">If you do not agree, do not use this website.</p>
+            </div>
+            
+            <div class="space-y-8 text-sm text-gray-400">
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-3">1. NATURE OF PRODUCTS</h2>
+                    <p>All products are handmade, limited, and one-of-one. Minor imperfections are expected and NOT considered defects.</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-3">2. REGISTRATION FEE</h2>
+                    <p>The registration deposit is <span class="text-red-400 font-semibold">NON-REFUNDABLE</span> regardless of outcome.</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-3">3. BIDDING RULES</h2>
+                    <p>• First bid must be at least product price</p>
+                    <p>• Each next bid must be ₹100 higher</p>
+                    <p>• Bids cannot be cancelled</p>
+                    <p>• Highest bid wins</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-3">4. PAYMENT</h2>
+                    <p>Winners must pay within 24 hours. Failure to pay results in deposit forfeiture and possible legal action.</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-3">5. NO REFUNDS</h2>
+                    <p>All sales are final. No refunds for any reason including change of mind, size issues, or handmade imperfections.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ABOUT PAGE -->
+    <main class="page" id="aboutPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-12" style="font-family: var(--font-display); font-style: italic;">About Us</h1>
+            <div class="space-y-6 text-lg">
+                <p><span class="text-white font-bold text-2xl">WEARENFEEL</span> is a handmade clothing brand based in India.</p>
+                <p class="text-gray-400">Every piece is created as a <span class="text-white font-semibold">limited one-of-one</span> product.</p>
+                <p class="text-gray-400">Once a piece is completed, it is <span class="text-white font-semibold">never recreated</span>.</p>
+                <div class="py-6 border-t border-b border-gray-800">
+                    <p class="text-white font-semibold text-xl">This is intentional creation.</p>
+                </div>
+                <p class="text-gray-400">When you own a WEARENFEEL piece, you own something <span class="accent font-semibold">no one else will ever have</span>.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- CONTACT PAGE -->
+    <main class="page" id="contactPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-12" style="font-family: var(--font-display); font-style: italic;">Contact Us</h1>
+            <div class="space-y-6">
+                <a href="https://wa.me/919876543210" target="_blank" class="flex items-center gap-4 p-5 border border-gray-800 hover:border-gray-600 transition-colors">
+                    <div class="w-12 h-12 flex items-center justify-center bg-green-500/10 rounded-full"><span class="text-2xl">💬</span></div>
+                    <div><p class="text-sm text-gray-500">WhatsApp</p><p class="text-lg">+91 9876543210</p></div>
+                </a>
+                <a href="mailto:wearenfeel@gmail.com" class="flex items-center gap-4 p-5 border border-gray-800 hover:border-gray-600 transition-colors">
+                    <div class="w-12 h-12 flex items-center justify-center bg-blue-500/10 rounded-full"><span class="text-2xl">✉️</span></div>
+                    <div><p class="text-sm text-gray-500">Email</p><p class="text-lg">wearenfeel@gmail.com</p></div>
+                </a>
+                <a href="https://instagram.com/wearenfeel" target="_blank" class="flex items-center gap-4 p-5 border border-gray-800 hover:border-gray-600 transition-colors">
+                    <div class="w-12 h-12 flex items-center justify-center bg-pink-500/10 rounded-full"><span class="text-2xl">📸</span></div>
+                    <div><p class="text-sm text-gray-500">Instagram</p><p class="text-lg">@wearenfeel</p></div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- PRIVACY PAGE -->
+    <main class="page" id="privacyPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display); font-style: italic;">Privacy Policy</h1>
+            <div class="space-y-6 text-sm text-gray-400">
+                <p>We collect your email, phone, and address for order processing and shipping only.</p>
+                <p>We do not sell your data to third parties.</p>
+                <p>Your data is stored securely and used only for WEARENFEEL operations.</p>
+                <p>By using this website, you consent to this policy.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- TERMS PAGE -->
+    <main class="page" id="termsPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display); font-style: italic;">Terms & Conditions</h1>
+            <div class="space-y-6 text-sm text-gray-400">
+                <p>By using this website, you agree to all terms stated here.</p>
+                <p>All bids are final and cannot be cancelled.</p>
+                <p>Winners must complete payment within 24 hours.</p>
+                <p>Admin decisions are final and binding.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- REFUND PAGE -->
+    <main class="page" id="refundPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display); font-style: italic;">Refund & Cancellation</h1>
+            <div class="space-y-6 text-sm text-gray-400">
+                <p class="text-red-400 font-semibold">NO REFUNDS. NO CANCELLATIONS.</p>
+                <p>Registration fees are NON-REFUNDABLE under any circumstances.</p>
+                <p>Once an order is confirmed, no cancellation or refund is possible.</p>
+                <p>Chargebacks will result in legal action.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- SHIPPING PAGE -->
+    <main class="page" id="shippingPage">
+        <button class="back-btn no-print" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 12H5M10 17l-5-5 5-5"/></svg>
+        </button>
+        <div class="pt-20 px-6 pb-16 fade-in">
+            <h1 class="text-3xl font-bold tracking-brutal mb-6" style="font-family: var(--font-display); font-style: italic;">Shipping & Delivery</h1>
+            <div class="space-y-6 text-sm text-gray-400">
+                <p>Products are handmade. Processing may take 1 day to several weeks.</p>
+                <p>Delivery timelines are estimates only.</p>
+                <p>You are responsible for providing correct address details.</p>
+                <p>Once shipped, risk transfers to the buyer.</p>
+                <p>International buyers are responsible for customs duties.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- PRINT CONTAINER -->
+    <div class="hidden" id="printContainer"></div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const API_BASE = "https://aa1-9s4j.onrender.com";
+
+        // ==========================================
+        // STATE
+        // ==========================================
+        const state = {
+            products: [],
+            bids: [],
+            orders: [],
+            customers: [],
+            user: null,
+            currentProduct: null,
+            isAdmin: false,
+            deposits: [],
+            pendingBid: null,
+            lastConfirmedBid: null,
+            checkoutData: {
+                address: null,
+                size: null,
+                targetProductId: null,
+                paymentConfirmed: false
+            },
+            cardHeights: {},
+            adminTab: 'dashboard'
+        };
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        async function init() {
+            loadLocalState();
+            await checkSession();
+            await loadProducts();
+            await loadBids();
+            renderHome();
+            updateMenu();
+        }
+
+        function loadLocalState() {
+            try {
+                const saved = localStorage.getItem('wearenfeelState');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.deposits) state.deposits = parsed.deposits;
+                    if (parsed.cardHeights) state.cardHeights = parsed.cardHeights;
+                }
+            } catch (e) {}
+            
+            // Demo products if nothing from server
+            if (!state.products.length) {
+                state.products = getDemoProducts();
+            }
+        }
+
+        function saveLocalState() {
+            try {
+                localStorage.setItem('wearenfeelState', JSON.stringify({
+                    deposits: state.deposits,
+                    cardHeights: state.cardHeights
+                }));
+            } catch (e) {}
+        }
+
+        function getDemoProducts() {
+            return [
+                { id: 1, name: 'Midnight Silk Jacket', price: 15000, description: 'Handcrafted silk jacket with intricate embroidery.', sizes: ['S', 'M', 'L'], stock: 1, images: ['https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=800&fit=crop'], bid_deposit: 500, bid_status: 'OPEN' },
+                { id: 2, name: 'Vintage Wool Coat', price: 22000, description: 'Luxurious wool coat inspired by 1940s fashion.', sizes: ['M', 'L'], stock: 1, images: ['https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&h=800&fit=crop'], bid_deposit: 1000, bid_status: 'OPEN' },
+                { id: 3, name: 'Artisan Linen Dress', price: 8500, description: 'Hand-stitched linen dress with natural dyes.', sizes: ['XS', 'S', 'M'], stock: 1, images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop'], bid_deposit: 300, bid_status: 'OPEN' },
+                { id: 4, name: 'Embroidered Blazer', price: 18000, description: 'Statement blazer with hand-embroidered details.', sizes: ['S', 'M', 'L', 'XL'], stock: 0, images: ['https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=800&fit=crop'], bid_deposit: 500, bid_status: 'CLOSED' }
+            ];
+        }
+
+        async function checkSession() {
+            try {
+                const res = await fetch(`${API_BASE}/me`, { credentials: 'include' });
+                if (res.ok) {
+                    state.user = await res.json();
+                    if (state.user.role === 'admin') state.isAdmin = true;
+                }
+            } catch (e) {}
+        }
+
+        async function loadProducts() {
+            try {
+                const res = await fetch(`${API_BASE}/products`, { credentials: 'include' });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.length > 0) state.products = data;
+                }
+            } catch (e) {}
+        }
+
+        async function loadBids() {
+            try {
+                const res = await fetch(`${API_BASE}/bids`, { credentials: 'include' });
+                if (res.ok) {
+                    state.bids = await res.json();
+                }
+            } catch (e) {}
+        }
+
+        async function loadOrders() {
+            try {
+                const res = await fetch(`${API_BASE}/orders`, { credentials: 'include' });
+                if (res.ok) {
+                    state.orders = await res.json();
+                }
+            } catch (e) {}
+        }
+
+        async function loadCustomers() {
+            try {
+                const res = await fetch(`${API_BASE}/customers`, { credentials: 'include' });
+                if (res.ok) {
+                    state.customers = await res.json();
+                }
+            } catch (e) {}
+        }
+
+        // ==========================================
+        // PASSWORD TOGGLE
+        // ==========================================
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>`;
+            } else {
+                input.type = 'password';
+                btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>`;
+            }
+        }
+
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+        function navigateTo(page, data = null) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            const header = document.getElementById('mainHeader');
+            header.style.display = 'flex';
+            
+            switch (page) {
+                case 'home':
+                    document.getElementById('homePage').classList.add('active');
+                    renderHome();
+                    break;
+                case 'product':
+                    if (data) state.currentProduct = state.products.find(p => p.id === data);
+                    document.getElementById('productPage').classList.add('active');
+                    renderProduct();
+                    break;
+                case 'address':
+                    document.getElementById('addressPage').classList.add('active');
+                    break;
+                case 'deposit':
+                    header.style.display = 'none';
+                    document.getElementById('depositPage').classList.add('active');
+                    renderDepositPage();
+                    break;
+                case 'signup':
+                    header.style.display = 'none';
+                    document.getElementById('signupPage').classList.add('active');
+                    break;
+                case 'simpleSignup':
+                    document.getElementById('simpleSignupPage').classList.add('active');
+                    break;
+                case 'userLogin':
+                    document.getElementById('userLoginPage').classList.add('active');
+                    break;
+                case 'myAccount':
+                    document.getElementById('myAccountPage').classList.add('active');
+                    renderMyAccount();
+                    break;
+                case 'myBids':
+                    document.getElementById('myBidsPage').classList.add('active');
+                    renderMyBids();
+                    break;
+                case 'placeBid':
+                    header.style.display = 'none';
+                    document.getElementById('placeBidPage').classList.add('active');
+                    renderPlaceBidPage();
+                    break;
+                case 'confirmed':
+                    header.style.display = 'none';
+                    document.getElementById('confirmedPage').classList.add('active');
+                    renderConfirmedPage();
+                    break;
+                case 'adminLogin':
+                    document.getElementById('adminLoginPage').classList.add('active');
+                    break;
+                case 'admin':
+                    if (!state.isAdmin) { navigateTo('adminLogin'); return; }
+                    document.getElementById('adminPage').classList.add('active');
+                    renderAdminDashboard();
+                    break;
+                case 'policies':
+                    document.getElementById('policiesPage').classList.add('active');
+                    break;
+                case 'about':
+                    document.getElementById('aboutPage').classList.add('active');
+                    break;
+                case 'contact':
+                    document.getElementById('contactPage').classList.add('active');
+                    break;
+                case 'privacy':
+                    document.getElementById('privacyPage').classList.add('active');
+                    break;
+                case 'terms':
+                    document.getElementById('termsPage').classList.add('active');
+                    break;
+                case 'refund':
+                    document.getElementById('refundPage').classList.add('active');
+                    break;
+                case 'shipping':
+                    document.getElementById('shippingPage').classList.add('active');
+                    break;
+                default:
+                    document.getElementById('homePage').classList.add('active');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // ==========================================
+        // MENU
+        // ==========================================
+        function toggleMenu() {
+            document.getElementById('menuOverlay').classList.toggle('active');
+            updateMenu();
+        }
+
+        function updateMenu() {
+            const nav = document.getElementById('dynamicMenuNav');
+            let html = '<a class="text-4xl tracking-brutal menu-link cursor-pointer" onclick="navigateTo(\'home\'); toggleMenu();">Home</a>';
+            
+            if (state.user) {
+                html += '<a class="text-4xl tracking-brutal menu-link cursor-pointer" onclick="navigateTo(\'myAccount\'); toggleMenu();">My Account</a>';
+                html += '<a class="text-4xl tracking-brutal menu-link cursor-pointer" onclick="navigateTo(\'myBids\'); toggleMenu();">My Bids</a>';
+                html += '<a class="text-4xl tracking-brutal menu-link cursor-pointer text-gray-500" onclick="handleLogout(); toggleMenu();">Logout</a>';
+            } else {
+                html += '<a class="text-4xl tracking-brutal menu-link cursor-pointer" onclick="navigateTo(\'userLogin\'); toggleMenu();">Login</a>';
+            }
+            
+            if (state.isAdmin) {
+                html += '<a class="text-2xl tracking-brutal menu-link cursor-pointer mt-6 text-gray-500" onclick="navigateTo(\'admin\'); toggleMenu();">Admin Panel</a>';
+            }
+            
+            nav.innerHTML = html;
+        }
+
+        let secretTapCount = 0;
+        function handleSecretTap() {
+            secretTapCount++;
+            if (secretTapCount >= 3) {
+                document.getElementById('adminSecretMenu').classList.remove('opacity-0', 'invisible');
+                secretTapCount = 0;
+            }
+            setTimeout(() => secretTapCount = 0, 2000);
+        }
+
+        function goToAdmin() {
+            document.getElementById('adminSecretMenu').classList.add('opacity-0', 'invisible');
+            toggleMenu();
+            navigateTo(state.isAdmin ? 'admin' : 'adminLogin');
+        }
+
+        // ==========================================
+        // HOME PAGE
+        // ==========================================
+        function renderHome() {
+            const grid = document.getElementById('productGrid');
+            if (!state.products.length) {
+                grid.innerHTML = '<p class="text-center text-gray-500 col-span-2 py-12">No products available.</p>';
+                return;
+            }
+            
+            grid.innerHTML = state.products.map(p => {
+                const images = parseImages(p.images);
+                const img = images[0] || 'https://via.placeholder.com/400x500/111/333?text=Product';
+                const isSold = p.stock === 0 || p.bid_status === 'CLOSED';
+                const height = state.cardHeights[p.id] || (260 + Math.floor(Math.random() * 100));
+                state.cardHeights[p.id] = height;
+                
+                return `
+                    <div class="product-card" style="height:${height}px;" onclick="navigateTo('product', ${p.id})">
+                        <img src="${img}" class="w-full h-full object-cover" loading="lazy" alt="${p.name}">
+                        <div class="price-tag">₹${(p.price || 0).toLocaleString()}</div>
+                        ${isSold ? '<div class="sold-stamp">SOLD</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            saveLocalState();
+        }
+
+        function parseImages(images) {
+            if (!images) return [];
+            if (Array.isArray(images)) return images;
+            if (typeof images === 'string') {
+                try { return JSON.parse(images); } catch (e) { return [images]; }
+            }
+            return [];
+        }
+
+        // ==========================================
+        // PRODUCT PAGE
+        // ==========================================
+        function renderProduct() {
+            const p = state.currentProduct;
+            if (!p) return;
+            
+            const images = parseImages(p.images);
+            const img = images[0] || 'https://via.placeholder.com/400x600/111/333?text=Product';
+            const sizes = parseSizes(p.sizes);
+            
+            const isSold = p.stock === 0 || p.bid_status === 'CLOSED';
+            const hasDeposit = state.deposits.includes(p.id);
+            
+            let buttonHTML = '';
+            if (isSold) {
+                buttonHTML = '<button class="btn-primary" disabled>SOLD OUT</button>';
+            } else if (!state.user) {
+                buttonHTML = '<button class="btn-primary" onclick="startBidFlow()">REGISTER TO BID</button>';
+            } else if (hasDeposit) {
+                buttonHTML = '<button class="btn-primary" onclick="goToPlaceBid()">PLACE BID</button>';
+            } else {
+                buttonHTML = '<button class="btn-primary" onclick="startBidFlow()">REGISTER TO BID</button>';
+            }
+            
+            const sizesHTML = sizes.length ? `
+                <div class="mb-6">
+                    <p class="text-sm text-muted mb-3 tracking-widest">SELECT SIZE</p>
+                    <div class="flex flex-wrap gap-2">
+                        ${sizes.map(s => `<button class="size-btn border border-gray-800 px-4 py-2 ${state.checkoutData.size === s ? 'selected' : ''}" onclick="selectSize('${s}')">${s}</button>`).join('')}
+                    </div>
+                </div>
+            ` : '';
+            
+            document.getElementById('productContent').innerHTML = `
+                <div class="image-slider" id="productSlider">
+                    ${images.map((img, i) => `
+                        <div class="image-slide">
+                            <img src="${img}" class="w-full h-[70vh] object-cover cursor-pointer" onclick="openGallery(${i})" alt="${p.name}">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="px-6 py-6">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <h1 class="text-2xl font-bold" style="font-family: var(--font-display);">${p.name}</h1>
+                        <p class="text-xl font-bold flex-shrink-0">₹${(p.price || 0).toLocaleString()}</p>
+                    </div>
+                    <p class="text-gray-400 mb-6">${p.description || ''}</p>
+                    ${sizesHTML}
+                    <div class="border border-gray-800 p-4 mb-6">
+                        <p class="text-sm text-muted mb-1 tracking-widest">AUCTION STATUS</p>
+                        <p class="text-lg font-bold ${p.bid_status === 'OPEN' ? 'text-green-500' : 'text-gray-500'}">${p.bid_status === 'OPEN' ? 'OPEN FOR BIDS' : 'CLOSED'}</p>
+                        <p class="text-xs text-gray-500 mt-2">Registration Fee: ₹${(p.bid_deposit || 100).toLocaleString()}</p>
+                    </div>
+                    ${buttonHTML}
+                </div>
+            `;
+        }
+
+        function parseSizes(sizes) {
+            if (!sizes) return [];
+            if (Array.isArray(sizes)) return sizes;
+            if (typeof sizes === 'string') {
+                try { return JSON.parse(sizes); } catch (e) { return sizes.split(',').map(s => s.trim()); }
+            }
+            return [];
+        }
+
+        function selectSize(size) {
+            state.checkoutData.size = size;
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.textContent === size);
+            });
+        }
+
+        function startBidFlow() {
+            state.checkoutData.targetProductId = state.currentProduct?.id;
+            if (state.user) {
+                navigateTo('deposit');
+            } else {
+                navigateTo('address');
+            }
+        }
+
+        // ==========================================
+        // GALLERY
+        // ==========================================
+        let currentGalleryIndex = 0;
+
+        function openGallery(index = 0) {
+            const p = state.currentProduct;
+            if (!p) return;
+            
+            const images = parseImages(p.images);
+            currentGalleryIndex = index;
+            
+            const gallery = document.getElementById('fullscreenGallery');
+            const slider = document.getElementById('gallerySlider');
+            const dots = document.getElementById('galleryDots');
+            
+            slider.innerHTML = images.map(img => `
+                <div class="image-slide flex items-center justify-center">
+                    <img src="${img}" class="max-h-screen w-full object-contain">
+                </div>
+            `).join('');
+            
+            dots.innerHTML = images.map((_, i) => `<div class="dot-indicator ${i === index ? 'active' : ''}"></div>`).join('');
+            
+            gallery.classList.add('active');
+            slider.scrollTo({ left: slider.clientWidth * index, behavior: 'instant' });
+            
+            slider.onscroll = () => {
+                const newIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+                if (newIndex !== currentGalleryIndex) {
+                    currentGalleryIndex = newIndex;
+                    dots.querySelectorAll('.dot-indicator').forEach((dot, i) => {
+                        dot.classList.toggle('active', i === newIndex);
+                    });
+                }
+            };
+        }
+
+        function closeGallery() {
+            document.getElementById('fullscreenGallery').classList.remove('active');
+        }
+
+        // ==========================================
+        // ADDRESS FORM
+        // ==========================================
+        function validateCountryCode(input) {
+            if (!input.value.startsWith('+')) input.value = '+' + input.value.replace(/[^0-9]/g, '');
+            input.value = '+' + input.value.substring(1).replace(/[^0-9]/g, '').substring(0, 3);
+        }
+
+        function validatePhoneNumber(input) {
+            input.value = input.value.replace(/\D/g, '').substring(0, 15);
+        }
+
+        function validatePostalCode(input) {
+            input.value = input.value.replace(/\D/g, '').substring(0, 10);
+        }
+
+        function continueApplication() {
+            const form = document.getElementById('addressForm');
+            const required = form.querySelectorAll('input[required]');
+            let valid = true;
+            
+            required.forEach(input => {
+                input.classList.remove('error');
+                if (!input.value.trim() && input.type !== 'checkbox') {
+                    input.classList.add('error');
+                    valid = false;
+                }
+                if (input.type === 'checkbox' && !input.checked) {
+                    input.classList.add('error');
+                    valid = false;
+                }
+            });
+            
+            if (!valid) {
+                alert('Please fill all required fields and agree to the terms.');
+                return;
+            }
+            
+            state.checkoutData.address = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('countryCode').value + ' ' + document.getElementById('phoneNumber').value,
+                addressLine1: document.getElementById('addressLine1').value.trim(),
+                addressLine2: document.getElementById('addressLine2').value.trim(),
+                city: document.getElementById('city').value.trim(),
+                state: document.getElementById('addressState').value.trim(),
+                postalCode: document.getElementById('postalCode').value.trim(),
+                country: document.getElementById('country').value.trim(),
+                specialInstructions: document.getElementById('specialInstructions').value.trim()
+            };
+            
+            navigateTo('deposit');
+        }
+
+        // ==========================================
+        // DEPOSIT PAGE
+        // ==========================================
+        function renderDepositPage() {
+            const p = state.currentProduct || state.products.find(pr => pr.id === state.checkoutData.targetProductId);
+            const amount = p?.bid_deposit || 100;
+            document.getElementById('depositAmount').textContent = amount.toLocaleString();
+        }
+
+        async function processPayment() {
+            const productId = state.checkoutData.targetProductId || state.currentProduct?.id;
+            const product = state.products.find(p => p.id === productId);
+            const amount = product?.bid_deposit || 100;
+            
+            // Simulate payment
+            alert('Payment of ₹' + amount + ' confirmed!');
+            
+            // Record deposit to backend if logged in
+            if (state.user) {
+                try {
+                    await fetch(`${API_BASE}/deposits`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ productId, amount })
+                    });
+                } catch (e) {}
+            }
+            
+            // Track deposit locally
+            if (!state.deposits.includes(productId)) {
+                state.deposits.push(productId);
+            }
+            state.checkoutData.paymentConfirmed = true;
+            saveLocalState();
+            
+            if (state.user) {
+                state.currentProduct = product;
+                goToPlaceBid();
+            } else {
+                navigateTo('signup');
+            }
+        }
+
+        // ==========================================
+        // AUTHENTICATION
+        // ==========================================
+        async function handleSignup() {
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupPasswordConfirm').value;
+            
+            if (!email || !password) { alert('Please fill all fields'); return; }
+            if (password !== confirm) { alert('Passwords do not match'); return; }
+            if (password.length < 6) { alert('Password must be at least 6 characters'); return; }
+            
+            try {
+                const res = await fetch(`${API_BASE}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Account created! Please login.');
+                    navigateTo('userLogin');
+                } else {
+                    alert(data.error || 'Signup failed');
+                }
+            } catch (e) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function handleSimpleSignup() {
+            const email = document.getElementById('simpleSignupEmail').value.trim();
+            const password = document.getElementById('simpleSignupPassword').value;
+            const confirm = document.getElementById('simpleSignupPasswordConfirm').value;
+            
+            if (!email || !password) { alert('Please fill all fields'); return; }
+            if (password !== confirm) { alert('Passwords do not match'); return; }
+            if (password.length < 6) { alert('Password must be at least 6 characters'); return; }
+            
+            try {
+                const res = await fetch(`${API_BASE}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Account created successfully! Please login.');
+                    navigateTo('userLogin');
+                } else {
+                    alert(data.error || 'Signup failed');
+                }
+            } catch (e) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function handleUserLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) { alert('Please enter email and password'); return; }
+            
+            try {
+                const res = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (res.ok) {
+                    const meRes = await fetch(`${API_BASE}/me`, { credentials: 'include' });
+                    if (meRes.ok) {
+                        state.user = await meRes.json();
+                        if (state.user.role === 'admin') state.isAdmin = true;
+                    }
+                    updateMenu();
+                    
+                    // If came from bid flow, continue to place bid
+                    if (state.checkoutData.targetProductId && state.deposits.includes(state.checkoutData.targetProductId)) {
+                        state.currentProduct = state.products.find(p => p.id === state.checkoutData.targetProductId);
+                        goToPlaceBid();
+                    } else {
+                        navigateTo('home');
+                    }
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'Login failed');
+                }
+            } catch (e) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await fetch(`${API_BASE}/logout`, { method: 'POST', credentials: 'include' });
+            } catch (e) {}
+            
+            state.user = null;
+            state.isAdmin = false;
+            updateMenu();
+            navigateTo('home');
+        }
+
+        async function adminLogin() {
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!email || !password) { alert('Please enter credentials'); return; }
+            
+            try {
+                const res = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (res.ok) {
+                    const meRes = await fetch(`${API_BASE}/me`, { credentials: 'include' });
+                    if (meRes.ok) {
+                        state.user = await meRes.json();
+                        if (state.user.role === 'admin') {
+                            state.isAdmin = true;
+                            updateMenu();
+                            navigateTo('admin');
+                        } else {
+                            alert('Access denied. Admin only.');
+                        }
+                    }
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'Login failed');
+                }
+            } catch (e) {
+                alert('Network error');
+            }
+        }
+
+        // ==========================================
+        // MY ACCOUNT
+        // ==========================================
+        function renderMyAccount() {
+            if (!state.user) return;
+            
+            document.getElementById('accEmail').value = state.user.email || '';
+            document.getElementById('accPhone').value = state.user.phone || '';
+            document.getElementById('accFullName').value = state.user.name || '';
+            
+            const addr = state.user.address || {};
+            document.getElementById('accAddress').value = addr.addressLine1 || '';
+            document.getElementById('accCity').value = addr.city || '';
+            document.getElementById('accState').value = addr.state || '';
+            document.getElementById('accCountry').value = addr.country || 'India';
+            document.getElementById('accPincode').value = addr.postalCode || '';
+            
+            renderAccountBids();
+        }
+
+        function renderAccountBids() {
+            const container = document.getElementById('accountBidsList');
+            if (!state.user) return;
+            
+            const userBids = state.bids.filter(b => b.email === state.user.email || b.user_id === state.user.id);
+            
+            if (!userBids.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No bids placed yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = userBids.map(bid => {
+                const product = state.products.find(p => p.id === bid.product_id);
+                const status = bid.status || 'ACTIVE';
+                
+                return `
+                    <div class="bg-gray-900/50 p-4 border border-gray-800 rounded-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-bold">${product?.name || 'Product'}</p>
+                                <p class="text-xs text-gray-500">Code: ${bid.code}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold">₹${(bid.bid_amount || 0).toLocaleString()}</p>
+                                <span class="bid-status ${status === 'WINNER' ? 'won' : status === 'ACTIVE' ? 'active' : 'closed'}">${status}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function saveAccountDetails() {
+            if (!state.user) return;
+            
+            const name = document.getElementById('accFullName').value.trim();
+            const address = {
+                addressLine1: document.getElementById('accAddress').value.trim(),
+                city: document.getElementById('accCity').value.trim(),
+                state: document.getElementById('accState').value.trim(),
+                country: document.getElementById('accCountry').value.trim(),
+                postalCode: document.getElementById('accPincode').value.trim()
+            };
+            const password = document.getElementById('accNewPassword').value;
+            
+            try {
+                const body = { name, address };
+                if (password && password.length >= 6) body.password = password;
+                
+                const res = await fetch(`${API_BASE}/customers/${state.user.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(body)
+                });
+                
+                if (res.ok) {
+                    const updated = await res.json();
+                    state.user = { ...state.user, ...updated };
+                    alert('Account updated!');
+                } else {
+                    alert('Update failed');
+                }
+            } catch (e) {
+                alert('Network error');
+            }
+        }
+
+        // ==========================================
+        // BIDDING
+        // ==========================================
+        function goToPlaceBid() {
+            const product = state.currentProduct || state.products.find(p => p.id === state.checkoutData.targetProductId);
+            if (!product) { navigateTo('home'); return; }
+            
+            state.currentProduct = product;
+            
+            // Generate bid code
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            state.pendingBid = {
+                code,
+                productId: product.id,
+                productName: product.name
+            };
+            
+            navigateTo('placeBid');
+        }
+
+        function renderPlaceBidPage() {
+            const product = state.currentProduct;
+            if (!product || !state.pendingBid) {
+                navigateTo('home');
+                return;
+            }
+            
+            document.getElementById('yourBidCode').textContent = state.pendingBid.code;
+            
+            // Calculate minimum bid
+            const productBids = state.bids.filter(b => b.product_id === product.id && b.status !== 'REFUNDED');
+            const highestBid = productBids.length ? Math.max(...productBids.map(b => b.bid_amount || 0)) : 0;
+            const minBid = highestBid > 0 ? highestBid + 100 : product.price;
+            
+            document.getElementById('minimumBidAmount').textContent = minBid.toLocaleString();
+            document.getElementById('bidAmountInput').min = minBid;
+            document.getElementById('bidAmountInput').placeholder = minBid.toLocaleString();
+            
+            state.pendingBid.minimumBid = minBid;
+        }
+
+        async function submitBid() {
+            const product = state.currentProduct;
+            if (!product || !state.pendingBid) {
+                alert('Session expired');
+                navigateTo('home');
+                return;
+            }
+            
+            const bidAmount = parseInt(document.getElementById('bidAmountInput').value || '0', 10);
+            const minBid = state.pendingBid.minimumBid || product.price;
+            
+            if (bidAmount < minBid) {
+                alert(`Bid must be at least ₹${minBid.toLocaleString()}`);
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_BASE}/bids`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        productId: product.id,
+                        bidAmount,
+                        size: state.checkoutData.size
+                    })
+                });
+                
+                if (res.ok) {
+                    const bid = await res.json();
+                    state.bids.push(bid);
+                    state.lastConfirmedBid = {
+                        code: bid.code,
+                        productId: product.id,
+                        productName: product.name,
+                        bidAmount,
+                        canEdit: true
+                    };
+                    state.pendingBid = null;
+                    navigateTo('confirmed');
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'Bid failed');
+                }
+            } catch (e) {
+                // Save locally if offline
+                state.lastConfirmedBid = {
+                    code: state.pendingBid.code,
+                    productId: product.id,
+                    productName: product.name,
+                    bidAmount,
+                    canEdit: true
+                };
+                state.pendingBid = null;
+                navigateTo('confirmed');
+            }
+        }
+
+        function renderConfirmedPage() {
+            const content = document.getElementById('confirmedContent');
+            const last = state.lastConfirmedBid;
+            
+            if (last) {
+                content.innerHTML = `
+                    <div class="w-24 h-24 rounded-full border border-green-500/50 flex items-center justify-center mb-8">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold mb-4" style="font-family: var(--font-display); font-style: italic;">Bid Placed!</h1>
+                    <p class="text-muted text-center mb-8">Your bid has been registered</p>
+                    <div class="border border-gray-800 p-6 mb-6 w-full max-w-xs">
+                        <p class="text-sm text-muted mb-2 tracking-widest">YOUR UNIQUE CODE</p>
+                        <p class="bid-code-display">${last.code}</p>
+                    </div>
+                    <div class="border border-gray-800 p-4 mb-8 w-full max-w-xs">
+                        <p class="text-sm text-muted mb-1">Your Bid Amount</p>
+                        <p class="text-2xl font-bold">₹${last.bidAmount.toLocaleString()}</p>
+                    </div>
+                    <p class="text-gray-500 text-sm text-center mb-8 max-w-xs">Keep this code safe. You'll need it to track your bid.</p>
+                    <button class="btn-primary w-full max-w-xs" onclick="navigateTo('home')">CONTINUE</button>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h1 class="text-3xl font-bold mb-4" style="font-family: var(--font-display);">Thank You</h1>
+                    <button class="btn-primary" onclick="navigateTo('home')">GO HOME</button>
+                `;
+            }
+        }
+
+        // ==========================================
+        // MY BIDS
+        // ==========================================
+        function renderMyBids() {
+            const container = document.getElementById('myBidsList');
+            
+            if (!state.user) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-12">Please login to see your bids.</p>';
+                return;
+            }
+            
+            const userBids = state.bids.filter(b => b.email === state.user.email || b.user_id === state.user.id);
+            
+            if (!userBids.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-12">No bids placed yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = userBids.map(bid => {
+                const product = state.products.find(p => p.id === bid.product_id);
+                const images = parseImages(product?.images);
+                const status = bid.status || 'ACTIVE';
+                
+                return `
+                    <div class="bg-gray-900/50 p-4 flex gap-4 border border-gray-800 rounded-lg">
+                        <img src="${images[0] || ''}" class="w-20 h-24 object-cover rounded" alt="">
+                        <div class="flex-1">
+                            <p class="font-bold">${product?.name || 'Product'}</p>
+                            <p class="text-xs text-gray-500 mb-2">Code: <span class="text-accent">${bid.code}</span></p>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bid-status ${status === 'WINNER' ? 'won' : status === 'ACTIVE' ? 'active' : 'closed'}">${status}</span>
+                            </div>
+                            <p class="text-sm">Bid: <span class="font-bold">₹${(bid.bid_amount || 0).toLocaleString()}</span></p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // ADMIN PANEL
+        // ==========================================
+        function switchAdminTab(tab) {
+            state.adminTab = tab;
+            
+            document.querySelectorAll('.admin-tab').forEach(t => {
+                t.classList.remove('border-white', 'text-white');
+                t.classList.add('border-transparent', 'text-gray-500');
+            });
+            document.querySelector(`[data-tab="${tab}"]`).classList.remove('border-transparent', 'text-gray-500');
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('border-white', 'text-white');
+            
+            document.querySelectorAll('.admin-content').forEach(c => c.classList.add('hidden'));
+            
+            switch (tab) {
+                case 'dashboard': 
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderAdminDashboard();
+                    break;
+                case 'products':
+                    document.getElementById('adminProducts').classList.remove('hidden');
+                    renderAdminProducts();
+                    break;
+                case 'orders':
+                    document.getElementById('adminOrders').classList.remove('hidden');
+                    loadOrders().then(renderAdminOrders);
+                    break;
+                case 'customers':
+                    document.getElementById('adminCustomers').classList.remove('hidden');
+                    loadCustomers().then(renderAdminCustomers);
+                    break;
+                case 'bids':
+                    document.getElementById('adminBids').classList.remove('hidden');
+                    renderAdminBids();
+                    break;
+            }
+        }
+
+        function renderAdminDashboard() {
+            document.getElementById('statProducts').textContent = state.products.length;
+            document.getElementById('statTotalBids').textContent = state.bids.length;
+            document.getElementById('statActiveBids').textContent = state.bids.filter(b => b.status === 'ACTIVE').length;
+            document.getElementById('statCustomers').textContent = new Set(state.bids.map(b => b.email)).size;
+            
+            const recent = state.bids.slice(-5).reverse();
+            document.getElementById('recentActivity').innerHTML = recent.length ? recent.map(bid => {
+                const product = state.products.find(p => p.id === bid.product_id);
+                return `
+                    <div class="flex items-center gap-3 p-3 bg-gray-900/50 rounded">
+                        <div class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-xs">${bid.code?.substring(0, 2) || '??'}</div>
+                        <div class="flex-1">
+                            <p class="text-sm">Bid on <strong>${product?.name || 'Product'}</strong></p>
+                            <p class="text-xs text-gray-500">₹${(bid.bid_amount || 0).toLocaleString()}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('') : '<p class="text-gray-500 text-center py-4">No recent activity</p>';
+        }
+
+        function renderAdminProducts() {
+            const container = document.getElementById('adminProductList');
+            
+            container.innerHTML = state.products.map(p => {
+                const images = parseImages(p.images);
+                return `
+                    <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                        <div class="flex gap-4 mb-4">
+                            <img src="${images[0] || ''}" class="w-20 h-24 object-cover rounded" alt="${p.name}">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <p class="font-bold">${p.name}</p>
+                                    <span class="text-xs px-2 py-1 rounded ${p.bid_status === 'OPEN' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}">${p.bid_status || 'OPEN'}</span>
+                                </div>
+                                <p class="text-sm text-gray-400 mb-2">₹${(p.price || 0).toLocaleString()} | Deposit: ₹${(p.bid_deposit || 100).toLocaleString()}</p>
+                                <p class="text-xs text-gray-500">Stock: ${p.stock || 0}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button class="btn-secondary flex-1 text-xs py-2" onclick="editProduct(${p.id})">EDIT</button>
+                            <button class="btn-secondary flex-1 text-xs py-2 text-red-400 border-red-900" onclick="deleteProduct(${p.id})">DELETE</button>
+                        </div>
+                    </div>
+                `;
+            }).join('') || '<p class="text-gray-500 text-center py-8">No products yet. Click + ADD PRODUCT to create one.</p>';
+        }
+
+        function renderAdminOrders() {
+            const container = document.getElementById('adminOrderList');
+            
+            if (!state.orders.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No orders yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = state.orders.map(order => {
+                const product = state.products.find(p => p.id === order.product_id);
+                return `
+                    <div class="bg-gray-900/50 p-4 border border-gray-800 rounded-lg" data-order-id="${order.id}">
+                        <div class="flex items-center gap-3 mb-3">
+                            <input type="checkbox" class="order-checkbox" onchange="updateOrderCheckbox(this)">
+                            <div class="flex-1">
+                                <p class="font-bold">${product?.name || 'Product'}</p>
+                                <p class="text-sm text-gray-400">₹${(order.amount || 0).toLocaleString()}</p>
+                            </div>
+                            <span class="text-xs px-2 py-1 rounded ${order.status === 'PAID' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}">${order.status}</span>
+                        </div>
+                        <div class="bg-black/30 p-3 text-sm rounded">
+                            <p class="font-semibold mb-1">Shipping Details:</p>
+                            <p class="text-gray-400">${order.name || 'N/A'}</p>
+                            <p class="text-gray-400">${order.email || 'N/A'}</p>
+                            <p class="text-gray-400">${order.phone || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderAdminCustomers() {
+            const container = document.getElementById('adminCustomerList');
+            document.getElementById('customerCount').textContent = `${state.customers.length} customers`;
+            
+            if (!state.customers.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No customers yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = state.customers.map(c => `
+                <div class="bg-gray-900/50 p-4 border border-gray-800 rounded-lg">
+                    <p class="font-bold">${c.name || 'No Name'}</p>
+                    <p class="text-sm text-gray-400">${c.email}</p>
+                    <p class="text-xs text-gray-500">${c.phone || 'No phone'}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderAdminBids() {
+            const container = document.getElementById('adminBidsList');
+            
+            const sorted = [...state.bids].sort((a, b) => (b.bid_amount || 0) - (a.bid_amount || 0));
+            
+            if (!sorted.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No bids yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = sorted.map(bid => {
+                const product = state.products.find(p => p.id === bid.product_id);
+                return `
+                    <div class="bg-gray-900/50 p-4 flex justify-between items-center border border-gray-800 rounded-lg">
+                        <div>
+                            <p class="font-mono font-bold">${bid.code}</p>
+                            <p class="text-sm text-gray-400">${product?.name || 'Product'}</p>
+                            <p class="text-xs text-gray-500">${bid.email || bid.name || 'Anonymous'}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-bold">₹${(bid.bid_amount || 0).toLocaleString()}</p>
+                            <span class="text-xs px-2 py-1 rounded ${bid.status === 'WINNER' ? 'bg-green-500/20 text-green-400' : bid.status === 'ACTIVE' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-500/20 text-gray-400'}">${bid.status || 'ACTIVE'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // PRODUCT MODAL
+        // ==========================================
+        function showProductModal(productId = null) {
+            const modal = document.getElementById('productModal');
+            const title = document.getElementById('productModalTitle');
+            
+            if (productId) {
+                const p = state.products.find(x => x.id === productId);
+                if (p) {
+                    title.textContent = 'Edit Product';
+                    document.getElementById('productId').value = p.id;
+                    document.getElementById('productName').value = p.name || '';
+                    document.getElementById('productPrice').value = p.price || '';
+                    document.getElementById('productDeposit').value = p.bid_deposit || 100;
+                    document.getElementById('productDesc').value = p.description || '';
+                    document.getElementById('productStock').value = p.stock || 1;
+                    document.getElementById('productSizes').value = parseSizes(p.sizes).join(', ');
+                    document.getElementById('productImageUrls').value = parseImages(p.images).join('\n');
+                    document.getElementById('productBidStatus').value = p.bid_status || 'OPEN';
+                }
+            } else {
+                title.textContent = 'Add Product';
+                document.getElementById('productForm').reset();
+                document.getElementById('productId').value = '';
+                document.getElementById('productDeposit').value = 100;
+                document.getElementById('productStock').value = 1;
+            }
+            
+            modal.classList.remove('opacity-0', 'invisible');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('opacity-0', 'invisible');
+        }
+
+        function editProduct(id) {
+            showProductModal(id);
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            
+            state.products = state.products.filter(p => p.id !== id);
+            renderAdminProducts();
+            
+            // TODO: Add backend delete call when endpoint is ready
+        }
+
+        async function saveProduct() {
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value.trim();
+            const price = parseInt(document.getElementById('productPrice').value, 10);
+            const bidDeposit = parseInt(document.getElementById('productDeposit').value, 10) || 100;
+            
+            if (!name) { alert('Product name is required'); return; }
+            if (!price || price <= 0) { alert('Valid price is required'); return; }
+            if (!bidDeposit || bidDeposit <= 0) { alert('Valid deposit fee is required'); return; }
+            
+            const description = document.getElementById('productDesc').value.trim();
+            const stock = parseInt(document.getElementById('productStock').value, 10) || 1;
+            const sizesText = document.getElementById('productSizes').value.trim();
+            const sizes = sizesText ? sizesText.split(',').map(s => s.trim()).filter(s => s) : [];
+            const imagesText = document.getElementById('productImageUrls').value.trim();
+            const images = imagesText ? imagesText.split('\n').map(s => s.trim()).filter(s => s) : [];
+            const bidStatus = document.getElementById('productBidStatus').value;
+            
+            const product = { name, price, description, sizes, stock, images, bidStatus, bidDeposit };
+            
+            try {
+                const url = id ? `${API_BASE}/products/${id}` : `${API_BASE}/products`;
+                const method = id ? 'PUT' : 'POST';
+                
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(product)
+                });
+                
+                if (res.ok) {
+                    await loadProducts();
+                    closeProductModal();
+                    renderAdminProducts();
+                    renderHome();
+                    alert('Product saved!');
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'Save failed');
+                }
+            } catch (e) {
+                // Save locally if offline
+                if (id) {
+                    const idx = state.products.findIndex(p => p.id === parseInt(id, 10));
+                    if (idx >= 0) {
+                        state.products[idx] = { ...state.products[idx], ...product, bid_deposit: bidDeposit, bid_status: bidStatus };
+                    }
+                } else {
+                    state.products.unshift({
+                        id: Date.now(),
+                        ...product,
+                        bid_deposit: bidDeposit,
+                        bid_status: bidStatus
+                    });
+                }
+                closeProductModal();
+                renderAdminProducts();
+                renderHome();
+                alert('Product saved locally!');
+            }
+        }
+
+        // ==========================================
+        // PRINT LABELS
+        // ==========================================
+        function selectAllOrders() {
+            document.querySelectorAll('.order-checkbox').forEach(cb => {
+                cb.checked = true;
+            });
+        }
+
+        function deselectAllOrders() {
+            document.querySelectorAll('.order-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+        }
+
+        function updateOrderCheckbox(cb) {
+            // Just for visual feedback if needed
+        }
+
+        function printSelectedLabels() {
+            const selected = Array.from(document.querySelectorAll('.order-checkbox:checked'))
+                .map(cb => cb.closest('[data-order-id]')?.dataset.orderId)
+                .filter(id => id);
+            
+            if (!selected.length) {
+                alert('Please select at least one order');
+                return;
+            }
+            
+            const printContainer = document.getElementById('printContainer');
+            const ordersToPrint = state.orders.filter(o => selected.includes(String(o.id)));
+            
+            printContainer.innerHTML = `
+                <div style="padding: 20px; font-family: Arial, sans-serif; color: #000;">
+                    <h2 style="text-align: center; margin-bottom: 20px;">WEARENFEEL - Shipping Labels</h2>
+                    ${ordersToPrint.map(order => {
+                        const product = state.products.find(p => p.id === order.product_id);
+                        return `
+                            <div class="print-label" style="margin-bottom: 20px; padding: 15px; border: 2px solid #000;">
+                                <h3 style="margin: 0 0 10px 0;">WEARENFEEL</h3>
+                                <p><strong>To:</strong> ${order.name || 'Customer'}</p>
+                                <p>${order.email || ''}</p>
+                                <p>${order.phone || ''}</p>
+                                <hr style="margin: 10px 0;">
+                                <p><strong>Product:</strong> ${product?.name || 'Product'}</p>
+                                <p><strong>Order ID:</strong> ${order.id}</p>
+                                <p><strong>Amount:</strong> ₹${(order.amount || 0).toLocaleString()}</p>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            setTimeout(() => window.print(), 100);
+        }
+
+        // ==========================================
+        // INITIALIZE
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
